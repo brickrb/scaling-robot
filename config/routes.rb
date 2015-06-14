@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
 
+# WEB INTERFACE
   root "pages#home"
+
+# API INTERFACE
+  namespace :api, path: "", :constraints => {:subdomain => "api"}, defaults: {format: 'json'} do
+    namespace :v0 do
+      get "/packages" => "packages#index"
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
