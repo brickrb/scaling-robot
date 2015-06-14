@@ -10,11 +10,21 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+# Environment Dependencies
 group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  #-----------
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'sqlite3'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'faker'
+  gem 'shoulda'
 end
 
 group :production do
