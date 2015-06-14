@@ -12,7 +12,7 @@ require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 
 set :domain, '45.55.250.126'
 set :deploy_to, '/home/deployer/brick'
-set :repository, 'git://github.com/brickrb/www.git'
+set :repository, 'git://github.com/brickrb/scaling-robot.git'
 set :branch, 'master'
 
 # For system-wide RVM install.
@@ -75,8 +75,8 @@ task :deploy => :environment do
     invoke :'deploy:cleanup'
 
     to :launch do
-      queue! %[kill -s SIGUSR2 `cat /home/deployer/brick/shared/puma.pid`]
-      queue  %[echo "-----> Puma has been restarted."]
+#      queue! %[kill -s SIGUSR2 `cat /home/deployer/brick/shared/puma.pid`]
+#      queue  %[echo "-----> Puma has been restarted."]
     end
   end
 end
