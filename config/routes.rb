@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 # WEB INTERFACE
   root "pages#home"
   get "/packages/:name" => "packages#show"
+  devise_for :users
 
 # API INTERFACE
   namespace :api, path: "", :constraints => {:subdomain => "api"}, defaults: {format: 'json'} do
