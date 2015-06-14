@@ -1,0 +1,3 @@
+# Make sure you set these variables!
+
+SECRET_KEY_BASE: "lala"
