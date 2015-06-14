@@ -12,6 +12,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Robot Dependencies
 gem 'bootstrap-sass'
+gem 'figaro'
 gem 'puma'
 
 # Environment Dependencies
