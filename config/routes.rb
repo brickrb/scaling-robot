@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v0 do
       get "/packages" => "packages#index"
       get "/packages/:name" => "packages#show"
+      post "/packages" => "packages#create"
     end
   end
 

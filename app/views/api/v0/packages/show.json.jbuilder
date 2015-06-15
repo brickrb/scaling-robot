@@ -1,1 +1,1 @@
-json.package @package, :id, :name
+json.extract! @package, :id, :name

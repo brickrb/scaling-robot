@@ -25,4 +25,46 @@ RSpec.describe Api::V0::PackagesController, type: :controller do
       end
     end
   end
+
+  describe "POST #create" do
+    context "valid parameters" do
+      it "creates a pacakge" do
+        expect {
+          post :create, format: :json, package: FactoryGirl.attributes_for(:package)
+        }.to change(Package, :count).by(1)
+      end
+
+      it "returns http 201" do
+        post :create, format: :json, package: FactoryGirl.attributes_for(:package)
+        response.status.should eq(201)
+      end
+    end
+
+    context "invalid parameters (no name)" do
+      it "does not create a pacakge" do
+        expect {
+          post :create, format: :json, package: FactoryGirl.attributes_for(:package, name: nil)
+        }.to change(Package, :count).by(0)
+      end
+
+      it "returns http 422" do
+        post :create, format: :json, package: FactoryGirl.attributes_for(:package, name: nil)
+        response.status.should eq(422)
+      end
+    end
+
+    context "invalid parameters (duplicate name)" do
+      before { FactoryGirl.create(:package, name: "rails") }
+      it "does not create a pacakge" do
+        expect {
+          post :create, format: :json, package: FactoryGirl.attributes_for(:package, name: "rails")
+        }.to change(Package, :count).by(0)
+      end
+
+      it "returns http 422" do
+        post :create, format: :json, package: FactoryGirl.attributes_for(:package, name: "rails")
+        response.status.should eq(422)
+      end
+    end
+  end
 end
