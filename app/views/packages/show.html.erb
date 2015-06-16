@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-9">
     <h1> <%= @package.name %> </h1>
-    <p>description!</p>
+    <p> <%= @package.description %> </p>
   </div>
 
   <div class="col-md-3">
@@ -14,13 +14,13 @@
     <br>
 
     <div>
-      <p>test published 1 month ago</p>
+      <p>test published <%= @package.lastest_version.created_at %></p>
       <hr>
-      <p> 1.0 is the latest of 56 versions</p>
+      <p> <%= @package.lastest_version_number %> is the latest of <%= @package.versions.count %> versions</p>
       <hr>
       <p><a href="https://github.com/rails/rails">github.com/rails/rails</a></p>
       <hr>
-      <p><b>MIT</b> license</p>
+      <p><b><%= @package.lastest_version.license %></b> license</p>
     </div>
     <br>
 
