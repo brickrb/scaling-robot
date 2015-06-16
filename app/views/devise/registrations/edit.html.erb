@@ -9,13 +9,13 @@
       <%= devise_error_messages! %>
 
       <div class="form-group">
-        <%= f.label :full_name, "Full Name" %>
-        <%= f.text_field :full_name, class: "form-control", placeholder: "Bricky the Bricker", autofocus: true %>
+        <%= f.label :full_name %>
+        <%= f.text_field :full_name, autofocus: true, placeholder: "Bricky the Bricker", class: "form-control" %>
       </div>
 
       <div class="form-group">
         <%= f.label :username %>
-        <%= f.text_field :username, class: "form-control", placeholder: "brick" %>
+        <%= f.text_field :username, class: "form-control" %>
       </div>
 
       <div class="form-group">
@@ -24,18 +24,13 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :website %>
-        <%= f.text_field :website, class: "form-control", placeholder: "google.com" %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :github_username, "GitHub username" %>
+        <%= f.label :github_username %>
         <%= f.text_field :github_username, class: "form-control", placeholder: "brickrb" %>
       </div>
 
       <div class="form-group">
-        <%= f.label :twitter_username %>
-        <%= f.text_field :twitter_username, class: "form-control", placeholder: "brickrb" %>
+        <%= f.label :website %>
+        <%= f.text_field :website, class: "form-control", placeholder: "google.com" %>
       </div>
 
       <div class="form-group">
