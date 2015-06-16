@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get "/packages" => "packages#index"
       get "/packages/:name" => "packages#show"
       post "/packages" => "packages#create"
+      delete "/packages/:name" => "packages#destroy"
     end
   end
 

@@ -67,4 +67,20 @@ RSpec.describe Api::V0::PackagesController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    context "valid parameters" do
+      before { @package = FactoryGirl.create(:package) }
+      it "deletes the package" do
+        expect {
+          delete :destroy, format: :json, name: @package.name, package: @package
+        }.to change(Package, :count).by(-1)
+      end
+
+      it "returns 204" do
+        delete :destroy, format: :json, name: @package.name, package: @package
+        response.status.should eq(204)
+      end
+    end
+  end
 end
