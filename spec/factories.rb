@@ -15,4 +15,12 @@ FactoryGirl.define do
     password_confirmation "foobarfoobar"
     username { Faker::Internet.user_name }
   end
+
+  factory :version do
+    description { Faker::Lorem.paragraph }
+    license "MIT"
+    number { Faker::Number.digit }
+    package_id "1"
+    shasum "shasum"
+  end
 end
