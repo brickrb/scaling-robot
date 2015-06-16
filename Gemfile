@@ -14,6 +14,7 @@ gem "responders", "~> 2.0"
 # Robot Dependencies
 gem 'bootstrap-sass'
 gem 'devise'
+gem 'fastly-rails'
 gem 'figaro'
 gem 'puma'
 

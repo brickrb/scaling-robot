@@ -1,3 +1,5 @@
 # Make sure you set these variables!
 
+FASTLY_API_KEY: "lala"
+FASTLY_SERVICE_ID: "lala"
 SECRET_KEY_BASE: "lala"
