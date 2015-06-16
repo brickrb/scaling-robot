@@ -1,5 +1,6 @@
 class Api::V0::PackagesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
+  before_action :set_package, only: [:show, :destroy]
   respond_to :json
 
   def index
@@ -7,7 +8,7 @@ class Api::V0::PackagesController < ApplicationController
   end
 
   def show
-    if @package = Package.find_by(name: params[:name])
+    if @package
     else
       render json: { "error": "Package could not be found." }, status: 404
     end
@@ -23,7 +24,6 @@ class Api::V0::PackagesController < ApplicationController
   end
 
   def destroy
-    @package = Package.find_by(name: params[:name])
     if @package.destroy
       render json: {}, status: 204
     else
@@ -32,6 +32,10 @@ class Api::V0::PackagesController < ApplicationController
   end
 
   private
+    def set_package
+      @package = Package.find_by(name: params[:name])
+    end
+
     def package_params
       params.require(:package).permit(:name)
     end
