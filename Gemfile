@@ -13,6 +13,7 @@ gem "responders", "~> 2.0"
 
 # Robot Dependencies
 gem 'bootstrap-sass'
+gem 'delayed_job_active_record'
 gem 'devise'
 gem 'doorkeeper'
 gem 'fastly-rails'
