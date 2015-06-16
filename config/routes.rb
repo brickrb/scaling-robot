@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "/packages/:name" => "packages#show", as: :package
   devise_for :users
   get "/users/:username" => "users#show"
+  use_doorkeeper
 
 # API INTERFACE
   namespace :api, path: "", :constraints => {:subdomain => "api"}, defaults: {format: 'json'} do
