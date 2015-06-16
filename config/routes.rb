@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "pages#home"
   get "/packages/:name" => "packages#show"
   devise_for :users
+  get "/users/:username" => "users#show"
 
 # API INTERFACE
   namespace :api, path: "", :constraints => {:subdomain => "api"}, defaults: {format: 'json'} do
