@@ -6,4 +6,10 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true
   validates :username, uniqueness: true
+
+  if Rails.env.production?
+    after_create :purge_all
+    after_save :purge
+    after_destroy :purge, :purge_all
+  end
 end
