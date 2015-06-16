@@ -11,15 +11,17 @@
   <div class="col-md-5">
     <p>profile picture</p>
 
-    <h3><b> Bricky the Bricker </b></h3>
+    <h3><b> <%= @user.full_name %> </b></h3>
     <hr>
 
-    <h3><b> google.com </b></h3>
-    <hr>
-
-    <h3><b> github.com/brickrb </b></h3>
-    <hr>
-    
-    <h3><b> brick/maclover7 </b></h3>
+    <% if @user.website %>
+      <h3><b> <%= link_to "#{@user.website}", "http://#{@user.website}" %> </b></h3>
+      <hr>
+    <% end %>
+    <% if @user.github_username %>
+      <h3><b> <%= link_to "#{@user.github_username} on GitHub", "https://github.com/#{@user.github_username}" %> </b></h3>
+      <hr>
+    <% end %>
+    <h3><b> <%= link_to "#{@user.username} on brick", "http://brick/users/#{@user.username}" %> </b></h3>
   </div>
 </div>
