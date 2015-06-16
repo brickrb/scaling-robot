@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 # WEB INTERFACE
   root "pages#home"
-  get "/packages/:name" => "packages#show"
+  get "/packages/:name" => "packages#show", as: :package
   devise_for :users
   get "/users/:username" => "users#show"
 

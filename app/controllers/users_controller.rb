@@ -4,5 +4,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(username: params[:username])
     set_surrogate_key_header @user.record_key
+    @packages = @user.packages.all
   end
 end

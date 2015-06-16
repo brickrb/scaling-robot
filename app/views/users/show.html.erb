@@ -4,8 +4,13 @@
 
 <div class="row">
   <div class="col-md-7">
-    <h3> 5 packages by <%= @user.username %></h3>
+    <h3> <%= @packages.count %> packages by <%= @user.username %></h3>
     <hr>
+    <% if @packages && @packages.any? %>
+      <% @packages.each do |package| %>
+        <h4> <%= link_to "#{package.name}", package_path(package.name) %> </h4>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="col-md-5">
