@@ -63,6 +63,12 @@ RSpec.describe Api::V0::PackagesController, type: :controller do
           }.to change(Package, :count).by(1)
         end
 
+        it "creates an ownership" do
+          expect {
+            post :create, format: :json, access_token: @token.token, package: FactoryGirl.attributes_for(:package)
+          }.to change(Ownership, :count).by(1)
+        end
+
         it "returns http 201" do
           post :create, format: :json, access_token: @token.token, package: FactoryGirl.attributes_for(:package)
           response.status.should eq(201)
@@ -100,10 +106,17 @@ RSpec.describe Api::V0::PackagesController, type: :controller do
     describe "DELETE #destroy" do
       context "valid parameters" do
         before { @package = FactoryGirl.create(:package) }
+        before { @ownership = FactoryGirl.create(:ownership) }
         it "deletes the package" do
           expect {
             delete :destroy, format: :json, access_token: @token.token, name: @package.name, package: @package
           }.to change(Package, :count).by(-1)
+        end
+
+        it "deletes the ownership" do
+          expect {
+            delete :destroy, format: :json, access_token: @token.token, name: @package.name, package: @package
+          }.to change(Ownership, :count).by(-1)
         end
 
         it "returns 204" do

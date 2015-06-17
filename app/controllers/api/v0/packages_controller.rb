@@ -17,7 +17,8 @@ class Api::V0::PackagesController < ApplicationController
 
   def create
     @package = Package.new(package_params)
-    if @package.save
+    @ownership = Ownership.create!(package_id: @package, user_id: current_user)
+    if @package.save && @ownership.save
       render :show, status: 201
     else
       render json: { "error": "Package could not be saved." }, status: 422
@@ -25,7 +26,8 @@ class Api::V0::PackagesController < ApplicationController
   end
 
   def destroy
-    if @package.destroy
+    @ownerships = Ownership.where(package_id: @package)
+    if @package.destroy && @ownerships.destroy_all
       render json: {}, status: 204
     else
       render json: { "error": "Package could not be deleted." }, status: 422
