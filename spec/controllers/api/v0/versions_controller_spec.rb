@@ -10,6 +10,10 @@ RSpec.describe Api::V0::VersionsController, type: :controller do
       post :create, format: :json, name: FactoryGirl.build(:package).name, version: FactoryGirl.attributes_for(:version)
       response.status.should eq(401)
     end
+    it 'returns a 401 when users are not authenticated' do
+      delete :destroy, format: :json, name: FactoryGirl.build(:package).name, number: FactoryGirl.build(:version).number
+      response.status.should eq(401)
+    end
   end
 
   context "with access token" do
@@ -90,6 +94,39 @@ RSpec.describe Api::V0::VersionsController, type: :controller do
 
         it "returns http 401" do
           post :create, format: :json, access_token: @token.token, name: @package.name, version: FactoryGirl.attributes_for(:version)
+          response.status.should eq(401)
+        end
+      end
+    end
+
+    describe "DELETE #destroy" do
+      context "valid parameters" do
+        before { @package = FactoryGirl.create(:package) }
+        before { @ownership = FactoryGirl.create(:ownership) }
+        before { @version = FactoryGirl.create(:version) }
+        it "deletes the version" do
+          expect {
+            delete :destroy, format: :json, access_token: @token.token, name: @package.name, number: @version.number
+          }.to change(Version, :count).by(-1)
+        end
+
+        it "returns 204" do
+          delete :destroy, format: :json, access_token: @token.token, name: @package.name, number: @version.number
+          response.status.should eq(204)
+        end
+      end
+
+      context "invalid parameters (no ownership)" do
+        before { @package = FactoryGirl.create(:package) }
+        before { @version = FactoryGirl.create(:version) }
+        it "does not delete the version" do
+          expect {
+            post :create, format: :json, access_token: @token.token, name: @package.name, number: @version.number
+          }.to change(Version, :count).by(0)
+        end
+
+        it "returns http 401" do
+          post :create, format: :json, access_token: @token.token, name: @package.name, number: @version.number
           response.status.should eq(401)
         end
       end

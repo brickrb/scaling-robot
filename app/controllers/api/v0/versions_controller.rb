@@ -14,6 +14,15 @@ class Api::V0::VersionsController < ApplicationController
     end
   end
 
+  def destroy
+    @version = Version.joins(:package).where(packages: {name: params[:name]}).find_by(number: params[:number])
+    if @version.destroy
+      render json: {}, status: 204
+    else
+      render json: { "error": "Version could not be deleted." }, status: 422
+    end
+  end
+
   private
 
     def set_package
