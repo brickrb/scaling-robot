@@ -19,6 +19,7 @@ gem 'doorkeeper'
 gem 'fastly-rails'
 gem 'figaro'
 gem 'puma'
+gem 'twitter'
 
 # Environment Dependencies
 group :development, :test do

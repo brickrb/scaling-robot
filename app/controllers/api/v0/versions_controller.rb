@@ -13,6 +13,7 @@ class Api::V0::VersionsController < ApplicationController
     else
       @version = Version.new(version_params.merge(package_id: @package.id))
       if @version.save
+        VersionTweeterJob.enqueue(@version.id)
         render json: {}, status: 201
       else
         render json: { "error": "Version could not be saved." }, status: 422
