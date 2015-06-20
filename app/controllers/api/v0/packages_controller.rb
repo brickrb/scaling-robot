@@ -10,6 +10,7 @@ class Api::V0::PackagesController < ApplicationController
 
   def show
     if @package
+      @versions = @package.versions.all if @package.versions.any?
     else
       render json: { "error": "Package could not be found." }, status: 404
     end
@@ -17,16 +18,22 @@ class Api::V0::PackagesController < ApplicationController
 
   def create
     @package = Package.new(package_params)
-    @ownership = Ownership.create!(package_id: @package, user_id: current_user)
-    if @package.save && @ownership.save
-      render :show, status: 201
+    if @package.save
+
+      @ownership = Ownership.create!(package_id: @package.id, user_id: current_api_user.id)
+      if @ownership.save
+        render :show, status: 201
+      else
+        render json: { "error": "Package could not be saved." }, status: 422
+      end
+      
     else
       render json: { "error": "Package could not be saved." }, status: 422
     end
   end
 
   def destroy
-    @ownerships = Ownership.where(package_id: @package)
+    @ownerships = Ownership.where(package_id: @package.id).all
     if @package.destroy && @ownerships.destroy_all
       render json: {}, status: 204
     else

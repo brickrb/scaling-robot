@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :username
     devise_parameter_sanitizer.for(:account_update) << :website
   end
+
+  def current_api_user
+    current_user || User.find(doorkeeper_token.resource_owner_id)
+  end
 end

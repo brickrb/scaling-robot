@@ -31,9 +31,9 @@ class Api::V0::VersionsController < ApplicationController
 
     def valid_ownership
       @package = Package.find_by(name: params[:name])
-      if @package = current_user.packages.find_by(name: params[:name])
+      if Ownership.where(package_id: @package.id, user_id: current_api_user.id).any?
       else
-        render json: { "error": "Not authorized." }, status: 401
+        render json: { "error": "Not authorized.", "user": "#{current_api_user.email}" }, status: 401
       end
     end
 
