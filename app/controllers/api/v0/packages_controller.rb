@@ -26,7 +26,7 @@ class Api::V0::PackagesController < ApplicationController
       else
         render json: { "error": "Package could not be saved." }, status: 422
       end
-      
+
     else
       render json: { "error": "Package could not be saved." }, status: 422
     end

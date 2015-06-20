@@ -6,7 +6,6 @@ class Api::V0::VersionsController < ApplicationController
   respond_to :json
 
   def create
-    #if @package.versions.where(number: version_params[:number]).any?
     if Version.exists?(package_id: @package.id, number: version_params[:number])
       render json: { "error": "Version could not be saved, a version with this number already exists." }, status: 422
       false
