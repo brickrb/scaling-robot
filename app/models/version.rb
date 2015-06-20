@@ -3,5 +3,4 @@ class Version < ActiveRecord::Base
 
   validates :license, presence: true
   validates :number, presence: true
-  validates :number, uniqueness: true
 end

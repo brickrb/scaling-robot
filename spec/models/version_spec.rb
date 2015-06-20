@@ -17,6 +17,6 @@ RSpec.describe Version, type: :model do
 
   it "invalid with a duplicate number" do
     FactoryGirl.create(:version, number: "1.0.0")
-    FactoryGirl.build(:version, number: "1.0.0").should_not be_valid
+    FactoryGirl.build(:version, number: "1.0.0").should_not be_persisted
   end
 end

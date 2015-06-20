@@ -6,11 +6,17 @@ class Api::V0::VersionsController < ApplicationController
   respond_to :json
 
   def create
-    @version = Version.new(version_params.merge(package_id: @package.id))
-    if @version.save
-      render json: {}, status: 201
+    #if @package.versions.where(number: version_params[:number]).any?
+    if Version.exists?(package_id: @package.id, number: version_params[:number])
+      render json: { "error": "Version could not be saved, a version with this number already exists." }, status: 422
+      false
     else
-      render json: { "error": "Version could not be saved." }, status: 422
+      @version = Version.new(version_params.merge(package_id: @package.id))
+      if @version.save
+        render json: {}, status: 201
+      else
+        render json: { "error": "Version could not be saved." }, status: 422
+      end
     end
   end
 
