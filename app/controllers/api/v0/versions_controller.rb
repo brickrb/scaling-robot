@@ -7,15 +7,15 @@ class Api::V0::VersionsController < ApplicationController
 
   def create
     if Version.exists?(package_id: @package.id, number: version_params[:number])
-      render json: { "error": "Version could not be saved, a version with this number already exists." }, status: 422
+      render :json => { error: "Version could not be saved, a version with this number already exists." }, status: 422
       false
     else
       @version = Version.new(version_params.merge(package_id: @package.id))
       if @version.save
         VersionTweeterJob.enqueue(@version.id)
-        render json: {}, status: 201
+        render :json => {}, status: 201
       else
-        render json: { "error": "Version could not be saved." }, status: 422
+        render :json => { error: "Version could not be saved." }, status: 422
       end
     end
   end
@@ -23,9 +23,9 @@ class Api::V0::VersionsController < ApplicationController
   def destroy
     @version = Version.joins(:package).where(packages: {name: params[:name]}).find_by(number: params[:number])
     if @version.destroy
-      render json: {}, status: 204
+      render :json => {}, status: 204
     else
-      render json: { "error": "Version could not be deleted." }, status: 422
+      render :json => { error: "Version could not be deleted." }, status: 422
     end
   end
 
@@ -39,7 +39,7 @@ class Api::V0::VersionsController < ApplicationController
       @package = Package.find_by(name: params[:name])
       if Ownership.where(package_id: @package.id, user_id: current_api_user.id).any?
       else
-        render json: { "error": "Not authorized.", "user": "#{current_api_user.email}" }, status: 401
+        render :json => { error: "Not authorized." }, status: 401
       end
     end
 
