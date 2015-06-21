@@ -13,6 +13,7 @@ class Api::V0::VersionsController < ApplicationController
       @version = Version.new(version_params.merge(package_id: @package.id))
       if @version.save
         VersionTweeterJob.enqueue(@version.id)
+        @version.package.purge
         render :json => {}, status: 201
       else
         render :json => { error: "Version could not be saved." }, status: 422
@@ -22,6 +23,7 @@ class Api::V0::VersionsController < ApplicationController
 
   def destroy
     @version = Version.joins(:package).where(packages: {name: params[:name]}).find_by(number: params[:number])
+    @version.package.purge
     if @version.destroy
       render :json => {}, status: 204
     else
