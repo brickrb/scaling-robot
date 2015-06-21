@@ -6,10 +6,12 @@ class Api::V0::PackagesController < ApplicationController
 
   def index
     @packages = Package.all
+    set_surrogate_key_header Package.table_key, @packages.map(&:record_key)
   end
 
   def show
     if @package
+      set_surrogate_key_header @package.record_key
       @versions = @package.versions.all if @package.versions.any?
     else
       render json: { error: "Package could not be found." }, status: 404
@@ -22,6 +24,7 @@ class Api::V0::PackagesController < ApplicationController
 
       @ownership = Ownership.create!(package_id: @package.id, user_id: current_api_user.id)
       if @ownership.save
+        @package.purge_all
         render :show, status: 201
       else
         render :json => { error: "Package could not be saved." }, status: 422
@@ -35,6 +38,7 @@ class Api::V0::PackagesController < ApplicationController
   def destroy
     @ownerships = Ownership.where(package_id: @package.id).all
     if @package.destroy && @ownerships.destroy_all
+      @package.purge_all
       render :json => {}, status: 204
     else
       render :json => { error: "Package could not be deleted." }, status: 422
