@@ -1,1 +1,1 @@
-json.packages @packages, :id, :name, :latest_version_number
+json.packages @packages, :id, :name
