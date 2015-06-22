@@ -2,6 +2,7 @@ class Api::V0::PackagesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
   before_action :doorkeeper_authorize!
   before_action :set_package, only: [:show, :destroy]
+  before_action :set_cache_control_headers, only: [:index, :show]
   respond_to :json
 
   def index
