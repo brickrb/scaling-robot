@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-md-9">
     <h1> <%= @package.name %> </h1>
-    <p> <%= @package.description %> </p>
+    <% if @package.latest_version %>
+      <p> <%= @package.description %> </p>
+    <% end %>
   </div>
 
   <div class="col-md-3">
@@ -13,29 +15,33 @@
     </div>
     <br>
 
-    <div>
-      <p>test published <%= @package.lastest_version.created_at %></p>
-      <hr>
-      <p> <%= @package.lastest_version_number %> is the latest of <%= @package.versions.count %> versions</p>
-      <hr>
-      <p><a href="https://github.com/rails/rails">github.com/rails/rails</a></p>
-      <hr>
-      <p><b><%= @package.lastest_version.license %></b> license</p>
-    </div>
-    <br>
+    <% if @package.latest_version %>
+      <div>
+        <p>v<%= @package.latest_version.number %> was published <%= time_ago_in_words(@package.latest_version.created_at) %> ago.</p>
+        <hr>
+        <p>v<%= @package.latest_version_number %> is the latest of <%= @package.versions.count %> versions</p>
+        <hr>
+        <p><a href="https://github.com/rails/rails">github.com/rails/rails</a></p>
+        <hr>
+        <p><b><%= @package.latest_version.license %></b> license</p>
+      </div>
+      <br>
 
-    <div>
-      <p><b> Stats: </b></p>
-    </div>
-    <br>
+      <div>
+        <p><b> Stats: </b></p>
+      </div>
+      <br>
 
-    <div>
-      <p><b> Dependencies: </b></p>
-    </div>
-    <br>
+      <div>
+        <p><b> Dependencies: </b></p>
+      </div>
+      <br>
 
-    <div>
-      <p><b> Dependents: </b></p>
-    </div>
+      <div>
+        <p><b> Dependents: </b></p>
+      </div>
+    <% else %>
+      <p>No versions for <%= @package.name %> have been published.</p>
+    <% end %>
   </div>
 </div>
