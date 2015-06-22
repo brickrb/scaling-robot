@@ -5,7 +5,10 @@ RSpec.describe Version, type: :model do
     FactoryGirl.build(:version).should be_valid
   end
 
+  it { should validate_presence_of(:license) }
+  it { should validate_presence_of(:number) }
   it { should belong_to(:package) }
+
 
   it "invalid without a license" do
     FactoryGirl.build(:version, license: nil).should_not be_valid

@@ -7,6 +7,8 @@ RSpec.describe User, type: :model do
 
   it { should have_many(:packages) }
   it { should have_many(:ownerships) }
+  it { should validate_presence_of(:username) }
+  it { should validate_uniqueness_of(:username) }
 
   it "invalid without a username" do
     FactoryGirl.build(:user, username: nil).should_not be_valid
