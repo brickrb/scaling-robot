@@ -10,8 +10,8 @@ require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, '45.55.250.126'
-set :deploy_to, '/home/deployer/brick'
+set :domain, 'ec2-52-7-3-119.compute-1.amazonaws.com'
+set :deploy_to, '/home/ubuntu/brick'
 set :repository, 'git://github.com/brickrb/scaling-robot.git'
 set :branch, 'master'
 
@@ -23,7 +23,7 @@ set :branch, 'master'
 set :shared_paths, ['config/application.yml', 'config/database.yml', 'log']
 
 # Optional settings:
-   set :user, 'deployer'    # Username in the server to SSH to.
+   set :user, '-i /users/jon/jonsmbp1.pem ubuntu'    # Username in the server to SSH to.
 #   set :port, '30000'     # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
@@ -70,12 +70,13 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    queue! %[RAILS_ENV=production rake db:create]
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     to :launch do
-      queue! %[kill -s SIGUSR2 `cat /home/deployer/brick/shared/puma.pid`]
+      queue! %[kill -s SIGUSR2 `cat /home/ubuntu/brick/shared/puma.pid`]
       queue  %[echo "-----> Puma has been restarted."]
     end
   end
