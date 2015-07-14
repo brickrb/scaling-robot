@@ -1,4 +1,4 @@
-# Robot.
+# Scaling Robot
 
 Brick's Rails-backed website and API.
 
